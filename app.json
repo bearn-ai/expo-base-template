@@ -29,14 +29,17 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      [
-        "react-native-google-mobile-ads",
-        {
-          "androidAppId": "ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy",
-          "iosAppId": "ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy"
-        }
-      ],
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "TODO: Set after running eas init"
+      }
+    },
+    "owner": "TODO: Set your Expo account name",
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/TODO_PROJECT_ID"
+    }
   }
 }

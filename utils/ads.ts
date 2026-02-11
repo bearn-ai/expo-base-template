@@ -1,12 +1,11 @@
-import {
-  InterstitialAd,
-  AdEventType,
-  RewardedAd,
-  RewardedAdEventType,
-} from 'react-native-google-mobile-ads';
+// AdMob wrapper — stub implementation for Expo Go development
+// Native ads require a development build (eas build) and the
+// react-native-google-mobile-ads package. To enable real ads:
+//   1. npm install react-native-google-mobile-ads
+//   2. Add the plugin to app.json with your AdMob app IDs
+//   3. Replace this file with the native implementation
 
-// Test IDs in __DEV__, replace with real IDs before release
-// TODO: Customize per app — set real ad unit IDs
+// TODO: Customize per app — set real ad unit IDs for production
 export const AD_UNIT_IDS = {
   banner: __DEV__ ? 'ca-app-pub-3940256099942544/6300978111' : 'YOUR_BANNER_ID',
   interstitial: __DEV__
@@ -17,74 +16,16 @@ export const AD_UNIT_IDS = {
     : 'YOUR_REWARDED_ID',
 };
 
-// Interstitial helper
-const interstitial = InterstitialAd.createForAdRequest(
-  AD_UNIT_IDS.interstitial
-);
-
 export function loadInterstitial(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const unsubLoaded = interstitial.addAdEventListener(
-      AdEventType.LOADED,
-      () => {
-        unsubLoaded();
-        resolve();
-      }
-    );
-    const unsubError = interstitial.addAdEventListener(
-      AdEventType.ERROR,
-      (error) => {
-        unsubError();
-        reject(error);
-      }
-    );
-    interstitial.load();
-  });
+  return Promise.resolve();
 }
 
-export function showInterstitial(): void {
-  interstitial.show();
-}
-
-// Rewarded video helper
-const rewarded = RewardedAd.createForAdRequest(AD_UNIT_IDS.rewarded);
+export function showInterstitial(): void {}
 
 export function loadRewarded(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const unsubLoaded = rewarded.addAdEventListener(
-      RewardedAdEventType.LOADED,
-      () => {
-        unsubLoaded();
-        resolve();
-      }
-    );
-    const unsubError = rewarded.addAdEventListener(
-      AdEventType.ERROR,
-      (error) => {
-        unsubError();
-        reject(error);
-      }
-    );
-    rewarded.load();
-  });
+  return Promise.resolve();
 }
 
 export function showRewarded(): Promise<boolean> {
-  return new Promise((resolve) => {
-    const unsubEarned = rewarded.addAdEventListener(
-      RewardedAdEventType.EARNED_REWARD,
-      () => {
-        unsubEarned();
-        resolve(true);
-      }
-    );
-    const unsubClosed = rewarded.addAdEventListener(
-      AdEventType.CLOSED,
-      () => {
-        unsubClosed();
-        resolve(false);
-      }
-    );
-    rewarded.show();
-  });
+  return Promise.resolve(false);
 }

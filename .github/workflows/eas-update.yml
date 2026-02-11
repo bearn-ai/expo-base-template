@@ -1,0 +1,51 @@
+name: EAS Update
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Update message'
+        required: false
+        default: 'Manual update'
+
+jobs:
+  update:
+    name: EAS Update
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account."
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create update (iOS)
+        run: |
+          eas update --branch ${{ github.ref_name }} --platform ios --message "${{ github.event.head_commit.message || inputs.message || 'Update' }}"
+
+      - name: Create update (Android)
+        run: |
+          eas update --branch ${{ github.ref_name }} --platform android --message "${{ github.event.head_commit.message || inputs.message || 'Update' }}"

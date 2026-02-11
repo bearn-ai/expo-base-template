@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import { PurchasesPackage } from 'react-native-purchases';
 import { getOfferings, purchasePackage, restorePurchases } from '../utils/purchases';
 import { useSettingsStore } from '../stores/settingsStore';
 import { Colors } from '../constants/colors';
@@ -27,7 +26,7 @@ const TIER_LABELS: Record<string, string> = {
 };
 
 export function Paywall({ onClose }: PaywallProps) {
-  const [packages, setPackages] = useState<PurchasesPackage[]>([]);
+  const [packages, setPackages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(false);
   const setSubscriptionTier = useSettingsStore((s) => s.setSubscriptionTier);
@@ -41,7 +40,7 @@ export function Paywall({ onClose }: PaywallProps) {
     });
   }, []);
 
-  const handlePurchase = async (pkg: PurchasesPackage) => {
+  const handlePurchase = async (pkg: any) => {
     setPurchasing(true);
     try {
       const tier: SubscriptionTier = await purchasePackage(pkg);

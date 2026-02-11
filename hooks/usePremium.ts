@@ -13,8 +13,12 @@ export function usePremium(): {
   const setSubscriptionTier = useSettingsStore((s) => s.setSubscriptionTier);
 
   const refresh = async () => {
-    const tier = await getSubscriptionTier();
-    setSubscriptionTier(tier);
+    try {
+      const tier = await getSubscriptionTier();
+      setSubscriptionTier(tier);
+    } catch {
+      // purchases not available (Expo Go) — keep current state
+    }
   };
 
   useEffect(() => {
