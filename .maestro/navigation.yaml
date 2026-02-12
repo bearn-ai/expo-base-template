@@ -1,0 +1,16 @@
+appId: ${APP_ID}
+---
+- runFlow: shared/launch-app.yaml
+
+# Verify Home tab loads
+- assertVisible: "Home"
+
+# Navigate to Settings
+- tapOn: "Settings"
+- assertVisible: "Settings"
+- waitForAnimationToEnd
+
+# Navigate back to Home
+- tapOn: "Home"
+- assertVisible: "Home"
+- waitForAnimationToEnd
